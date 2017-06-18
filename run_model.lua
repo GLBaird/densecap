@@ -159,7 +159,6 @@ local num_process = math.min(#image_paths, opt.max_images)
 local results_json = {}
 for k=1,num_process do
   local img_path = image_paths[k]
-  print(string.format('%d/%d processing image %s', k, num_process, img_path))
   -- run the model on the image and obtain results
   local result = run_image(model, img_path, opt, dtype)  
   -- handle output serialization: either to directory or for pretty html vis
@@ -170,19 +169,20 @@ for k=1,num_process do
   end
   if opt.output_vis == 1 then
     -- save the raw image to vis/data/
-    local img_out_path = paths.concat(opt.output_vis_dir, paths.basename(img_path))
-    image.save(img_out_path, result.img)
+    -- local img_out_path = paths.concat(opt.output_vis_dir, paths.basename(img_path))
+    -- image.save(img_out_path, result.img)
     -- keep track of the (thin) json information with all result metadata
     local result_json = result_to_json(result)
     result_json.img_name = paths.basename(img_path)
+    result_json.img_path = img_path
     table.insert(results_json, result_json)
   end
 end
 
 if #results_json > 0 then
   -- serialize to json
-  local out = {}
-  out.results = results_json
-  out.opt = opt
-  utils.write_json(paths.concat(opt.output_vis_dir, 'results.json'), out)
+  print(utils.encode_json(results_json))
+--  out.results = results_json
+--  out.opt = opt
+--  utils.write_json(paths.concat(opt.output_vis_dir, 'results.json'), out)
 end

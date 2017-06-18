@@ -97,6 +97,12 @@ function utils.write_json(path, j)
   file:close()
 end
 
+function utils.encode_json(j)
+  cjson.encode_sparse_array(true, 2, 10)
+  local text = cjson.encode(j)
+  return text
+end
+
 -- dicts is a list of tables of k:v pairs, create a single
 -- k:v table that has the mean of the v's for each k
 -- assumes that all dicts have same keys always
