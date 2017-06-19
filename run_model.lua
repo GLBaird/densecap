@@ -181,7 +181,7 @@ end
 
 if #results_json > 0 then
   -- serialize to json
-  print(utils.encode_json(results_json))
+  print("<<" .. utils.encode_json(results_json) .. ">>")
 --  out.results = results_json
 --  out.opt = opt
 --  utils.write_json(paths.concat(opt.output_vis_dir, 'results.json'), out)
